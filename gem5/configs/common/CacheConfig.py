@@ -62,12 +62,12 @@ def config_cache(options, system):
             print("O3_ARM_v7a_3 is unavailable. Did you compile the O3 model?")
             sys.exit(1)
 
-        dcache_class, icache_class, l2_cache_class, l3_cache_class  = \
+        dcache_class, icache_class, l2_cache_class, l3_cache_class, walk_cache_class  = \
             O3_ARM_v7a_DCache, O3_ARM_v7a_ICache, O3_ARM_v7aL2, \
-            O3_ARM_v7aL3
+            O3_ARM_v7aL3, O3_ARM_v7aWalkCache
     else:
-        dcache_class, icache_class, l2_cache_class, l3_cache_class = \
-            L1_DCache, L1_ICache, L2Cache, L3Cache
+        dcache_class, icache_class, l2_cache_class, l3_cache_class, walk_cache_class = \
+            L1_DCache, L1_ICache, L2Cache, L3Cache, None
 
         if buildEnv['TARGET_ISA'] == 'x86':
             walk_cache_class = PageTableWalkerCache
