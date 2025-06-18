@@ -46,6 +46,9 @@ const
 {
     // Reset reference count
     std::static_pointer_cast<LFUReplData>(replacement_data)->refCount = 0;
+    // self added -- Reset tick
+    std::static_pointer_cast<LFUReplData>(
+        replacement_data)->lastTouchTick = Tick(0);
 }
 
 void
@@ -53,6 +56,9 @@ LFURP::touch(const std::shared_ptr<ReplacementData>& replacement_data) const
 {
     // Update reference count
     std::static_pointer_cast<LFUReplData>(replacement_data)->refCount++;
+    // self added -- Update last touch timestamp
+    std::static_pointer_cast<LFUReplData>(
+        replacement_data)->lastTouchTick = curTick();
 }
 
 void
@@ -60,6 +66,9 @@ LFURP::reset(const std::shared_ptr<ReplacementData>& replacement_data) const
 {
     // Reset reference count
     std::static_pointer_cast<LFUReplData>(replacement_data)->refCount = 1;
+    // self added -- Update to current tick
+    std::static_pointer_cast<LFUReplData>(
+        replacement_data)->lastTouchTick = curTick();
 }
 
 ReplaceableEntry*
@@ -77,6 +86,18 @@ LFURP::getVictim(const ReplacementCandidates& candidates) const
                 std::static_pointer_cast<LFUReplData>(
                     victim->replacementData)->refCount) {
             victim = candidate;
+        }
+        // self added -- handle situation when refcounts are equal
+        else if(std::static_pointer_cast<LFUReplData>(
+                    candidate->replacementData)->refCount ==
+                std::static_pointer_cast<LFUReplData>(
+                    victim->replacementData)->refCount){
+            if(std::static_pointer_cast<LFUReplData>(
+                    candidate->replacementData)->lastTouchTick <
+                std::static_pointer_cast<LFUReplData>(
+                    victim->replacementData)->lastTouchTick){
+                victim = candidate;
+            }
         }
     }
 
