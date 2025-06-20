@@ -1,5 +1,10 @@
 # csarchFinal
 
+編譯
+```
+scons EXTRAS=../NVmain build/X86/gem5.opt
+```
+
 ## Q2
 
 modifed:
