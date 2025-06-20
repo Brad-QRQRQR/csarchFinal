@@ -19,6 +19,8 @@ l3_assoc = ?
 
 modifed:
 + gem5/src/mem/cache/replacement_policies/lfu_rp.cc
++ gem5/src/mem/cache/replacement_policies/lfu_rp.hh
++ gem5/configs/common/Caches.py
 
 ## Q5
 
